@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace DehotomiaM
 {
@@ -33,52 +34,43 @@ namespace DehotomiaM
             double a = Convert.ToDouble(textBox1.Text);
             double b = Convert.ToDouble(textBox2.Text);
             double Xi = Convert.ToDouble(textBox3.Text);
-            double max;
-            if (F(a) > F(b))
+            Xi = (int)-Math.Log10(Xi);
+            double max, min;
+            double delta = Xi / 10;
+
+            while (b - a >= Xi)
             {
-                max = F(a);
-            }
-            else
-            {
-                max = F(b);
-            }
-            double answer = 1.0;
-            while (CheckPrecision(Proisvodnaya((a + b) / 2), Xi))
-            {
-                answer = F((double)((a + b) / 2));
-                if (Proisvodnaya((double)((a + b) / 2)) * Proisvodnaya(a) > 0)
-                {
-                    a = (double)((a + b) / 2);
-                }
+                double middle = (a + b) / 2;
+                double lambda = middle - delta, mu = middle + delta;
+                if (F(lambda) < F(mu))
+                    b = mu;
                 else
-                {
-                    b = (double)((a + b) / 2);
-                }
+                    a = lambda;
             }
-            MessageBox.Show($"минимум {answer}; максимум {max}");
+            min =  (a + b) / 2;
+
+
+            while (b - a >= Xi)
+            {
+                double middle = (a + b) / 2;
+                double lambda = middle - delta, mu = middle + delta;
+                if (-F(lambda) < -F(mu))
+                    b = mu;
+                else
+                    a = lambda;
+            }
+            max = (a + b) / 2;
+
+            MessageBox.Show($"минимум {min}; максимум {max}");
             this.chart1.Series[0].Points.Clear();
-            double x = 0;
+            double x = a;
             double y;
-            while (x <= 8)
+            while (x <= b)
             {
                 y = F(x);
                 this.chart1.Series[0].Points.AddXY(x, y);
                 x += 0.1;
             }
-        }
-        public static bool CheckPrecision(double yStr, double precision)
-        {
-            bool check = false;
-            string myY = Convert.ToString(yStr);
-            string myPres = Convert.ToString(precision);
-            for (int pos = 2; pos < myPres.Length - 1; ++pos)
-            {
-                if (myY[pos] != '0')
-                {
-                    check = true; break;
-                }
-            }
-            return check;
         }
     }
 }
