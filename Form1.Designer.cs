@@ -110,7 +110,7 @@
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
             series1.Name = "Series1";
             this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(388, 246);
+            this.chart1.Size = new System.Drawing.Size(540, 328);
             this.chart1.TabIndex = 8;
             this.chart1.Text = "chart1";
             title1.Name = "Title1";
