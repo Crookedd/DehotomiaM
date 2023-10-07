@@ -31,45 +31,61 @@ namespace DehotomiaM
 
         private void button1_Click(object sender, EventArgs e)
         {
-            double a = Convert.ToDouble(textBox1.Text);
-            double b = Convert.ToDouble(textBox2.Text);
-            double Xi = Convert.ToDouble(textBox3.Text);
-            Xi = (int)-Math.Log10(Xi);
-            double max, min;
-            double delta = Xi / 10;
-
-            while (b - a >= Xi)
+            try
             {
-                double middle = (a + b) / 2;
-                double lambda = middle - delta, mu = middle + delta;
-                if (F(lambda) < F(mu))
-                    b = mu;
-                else
-                    a = lambda;
+                double a, b, Xi;
+                if (!double.TryParse(textBox1.Text, out a) || !double.TryParse(textBox2.Text, out b) || !double.TryParse(textBox3.Text, out Xi))
+                {
+                    throw new ArgumentException("Некорректные значения входных данных");
+                }
+
+                Xi = (int)-Math.Log10(Xi);
+                double max, min;
+                double delta = Xi / 10;
+
+                if (a >= b)
+                {
+                    throw new ArgumentException("Некорректные границы интервала");
+                }
+
+                while (b - a >= Xi)
+                {
+                    double middle = (a + b) / 2;
+                    double lambda = middle - delta, mu = middle + delta;
+                    if (F(lambda) < F(mu))
+                        b = mu;
+                    else
+                        a = lambda;
+                }
+                min = (a + b) / 2;
+
+
+                while (b - a >= Xi)
+                {
+                    double middle = (a + b) / 2;
+                    double lambda = middle - delta, mu = middle + delta;
+                    if (-F(lambda) < -F(mu))
+                        b = mu;
+                    else
+                        a = lambda;
+                }
+                max = (a + b) / 2;
+
+
+                MessageBox.Show($"минимум {min}; максимум {max}");
+                this.chart1.Series[0].Points.Clear();
+                double x = a;
+                double y;
+                while (x <= b)
+                {
+                    y = F(x);
+                    this.chart1.Series[0].Points.AddXY(x, y);
+                    x += 0.1;
+                }
             }
-            min =  (a + b) / 2;
-
-
-            while (b - a >= Xi)
+            catch (Exception ex)
             {
-                double middle = (a + b) / 2;
-                double lambda = middle - delta, mu = middle + delta;
-                if (-F(lambda) < -F(mu))
-                    b = mu;
-                else
-                    a = lambda;
-            }
-            max = (a + b) / 2;
-
-            MessageBox.Show($"минимум {min}; максимум {max}");
-            this.chart1.Series[0].Points.Clear();
-            double x = a;
-            double y;
-            while (x <= b)
-            {
-                y = F(x);
-                this.chart1.Series[0].Points.AddXY(x, y);
-                x += 0.1;
+                MessageBox.Show("Ошибка: " + ex.Message);
             }
         }
     }
