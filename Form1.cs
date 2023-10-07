@@ -39,7 +39,6 @@ namespace DehotomiaM
                     throw new ArgumentException("Некорректные значения входных данных");
                 }
 
-                Xi = (int)-Math.Log10(Xi);
                 double max, min;
                 double delta = Xi / 10;
 
@@ -47,6 +46,38 @@ namespace DehotomiaM
                 {
                     throw new ArgumentException("Некорректные границы интервала");
                 }
+                /*if (F(a) * F(b) <= 0)
+                {
+                    double root;
+                    MessageBox.Show("Условие сходимости выполнено");
+
+                    while (true)
+                    {
+                        root = (a + b) / 2;
+
+                        if (Math.Abs(F(root)) < Xi)
+                        {
+                            break;
+                        }
+
+                        if (F(a) * F(root) <= 0)
+                        {
+                            a = a;
+                            b = root;
+                        }
+                        else
+                        {
+                            a = root;
+                            b = b;
+                        }
+                    }
+
+                    MessageBox.Show("Корень равен " + root + ".");
+                }
+                else
+                {
+                    MessageBox.Show("Условие сходимости не выполнено");
+                }*/
 
                 while (b - a >= Xi)
                 {
