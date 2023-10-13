@@ -136,10 +136,6 @@ namespace DehotomiaM
                 {
                     throw new ArgumentException("Некорректные границы интервала");
                 }
-
-                double minimum = GoldenSectionSearch(F, a, b, Xi);
-
-                MessageBox.Show($"Локальный минимум: x = {minimum}, f(x) = {F(minimum)}");
                 this.chart1.Series[0].Points.Clear();
                 double x = a;
                 double y;
@@ -149,6 +145,10 @@ namespace DehotomiaM
                     this.chart1.Series[0].Points.AddXY(x, y);
                     x += 0.1;
                 }
+                double minimum = GoldenSectionSearch(F, a, b, Xi);
+
+                MessageBox.Show($"Локальный минимум: x = {minimum}, f(x) = {F(minimum)}");
+
             }
             catch (Exception ex)
             {
