@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title4 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title5 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -49,7 +49,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(203, 40);
             this.button1.TabIndex = 0;
-            this.button1.Text = "Произвести расчёт";
+            this.button1.Text = "Метод Дихотомии";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -103,28 +103,28 @@
             // 
             // chart1
             // 
-            chartArea4.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea4);
+            chartArea5.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea5);
             this.chart1.Location = new System.Drawing.Point(289, 21);
             this.chart1.Name = "chart1";
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series4.Name = "Series1";
-            this.chart1.Series.Add(series4);
+            series5.ChartArea = "ChartArea1";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series5.Name = "Series1";
+            this.chart1.Series.Add(series5);
             this.chart1.Size = new System.Drawing.Size(540, 328);
             this.chart1.TabIndex = 8;
             this.chart1.Text = "chart1";
-            title4.Name = "Title1";
-            title4.Text = "f(x) = (27 - 18x+2x^2)*e^(-x/3)";
-            this.chart1.Titles.Add(title4);
+            title5.Name = "Title1";
+            title5.Text = "f(x) = (27 - 18x+2x^2)*e^(-x/3)";
+            this.chart1.Titles.Add(title5);
             // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(48, 207);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(203, 35);
+            this.button2.Size = new System.Drawing.Size(203, 44);
             this.button2.TabIndex = 9;
-            this.button2.Text = "button2";
+            this.button2.Text = "Метод Золотого сечения(Ньютона)";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
