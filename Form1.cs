@@ -47,6 +47,7 @@ namespace DehotomiaM
                     throw new ArgumentException("Некорректные границы интервала");
                 }
 
+
                 while (b - a >= Xi)
                 {
                     double middle = (a + b) / 2;
@@ -59,11 +60,16 @@ namespace DehotomiaM
                 min = (a + b) / 2;
 
 
+                // Точка максимума
+                if (!double.TryParse(textBox1.Text, out a) || !double.TryParse(textBox2.Text, out b) || !double.TryParse(textBox3.Text, out Xi))
+                {
+                    throw new ArgumentException("Некорректные значения входных данных");
+                }
                 while (b - a >= Xi)
                 {
                     double middle = (a + b) / 2;
                     double lambda = middle - delta, mu = middle + delta;
-                    if (-F(lambda) < -F(mu))
+                    if (F(lambda) > F(mu))
                         b = mu;
                     else
                         a = lambda;
