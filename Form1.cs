@@ -21,6 +21,7 @@ namespace DehotomiaM
         {
             double f;
             f = (27 - 18 * x + 2 * Math.Pow(x, 2)) * Math.Exp(-(x / 3));
+
             return f;
         }
         double Proisvodnaya(double x)
@@ -39,15 +40,22 @@ namespace DehotomiaM
                     throw new ArgumentException("Некорректные значения входных данных");
                 }
 
-                double max, min;
-                double delta = Xi / 10;
-
                 if (a >= b)
                 {
                     throw new ArgumentException("Некорректные границы интервала");
                 }
+                this.chart1.Series[0].Points.Clear();
+                double x = a;
+                double y;
+                while (x <= b)
+                {
+                    y = F(x);
+                    this.chart1.Series[0].Points.AddXY(x, y);
+                    x += 0.1;
+                }
 
-
+                double max, min;
+                double delta = Xi / 10;
                 while (b - a >= Xi)
                 {
                     double middle = (a + b) / 2;
@@ -76,8 +84,62 @@ namespace DehotomiaM
                 }
                 max = (a + b) / 2;
 
+                MessageBox.Show($"Локальный минимум {min}; максимум {max}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка: " + ex.Message);
+            }
+        }
+        double GoldenSectionSearch(Func<double, double> f, double a, double b, double epsilon)
+        {
+            double phi = (1 + Math.Sqrt(5)) / 2; // Золотое сечение
 
-                MessageBox.Show($"минимум {min}; максимум {max}");
+            double x1 = b - (b - a) / phi;
+            double x2 = a + (b - a) / phi;
+            double f1 = f(x1);
+            double f2 = f(x2);
+
+            while (Math.Abs(b - a) > epsilon)
+            {
+                if (f1 < f2)
+                {
+                    b = x2;
+                    x2 = x1;
+                    f2 = f1;
+                    x1 = b - (b - a) / phi;
+                    f1 = f(x1);
+                }
+                else
+                {
+                    a = x1;
+                    x1 = x2;
+                    f1 = f2;
+                    x2 = a + (b - a) / phi;
+                    f2 = f(x2);
+                }
+            }
+
+            return (a + b) / 2;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                double a, b, Xi;
+                if (!double.TryParse(textBox1.Text, out a) || !double.TryParse(textBox2.Text, out b) || !double.TryParse(textBox3.Text, out Xi))
+                {
+                    throw new ArgumentException("Некорректные значения входных данных");
+                }
+                if (a >= b)
+                {
+                    throw new ArgumentException("Некорректные границы интервала");
+                }
+
+                double minimum = GoldenSectionSearch(F, a, b, Xi);
+
+                MessageBox.Show($"Локальный минимум: x = {minimum}, f(x) = {F(minimum)}");
                 this.chart1.Series[0].Points.Clear();
                 double x = a;
                 double y;
@@ -92,6 +154,7 @@ namespace DehotomiaM
             {
                 MessageBox.Show("Ошибка: " + ex.Message);
             }
+
         }
     }
 }
