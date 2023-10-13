@@ -91,7 +91,7 @@ namespace DehotomiaM
                 MessageBox.Show("Ошибка: " + ex.Message);
             }
         }
-        double GoldenSectionSearch(Func<double, double> f, double a, double b, double epsilon)
+        double GoldenSectionSearchMin(Func<double, double> f, double a, double b, double epsilon)
         {
             double phi = (1 + Math.Sqrt(5)) / 2; // Золотое сечение
 
@@ -103,6 +103,37 @@ namespace DehotomiaM
             while (Math.Abs(b - a) > epsilon)
             {
                 if (f1 < f2)
+                {
+                    b = x2;
+                    x2 = x1;
+                    f2 = f1;
+                    x1 = b - (b - a) / phi;
+                    f1 = f(x1);
+                }
+                else
+                {
+                    a = x1;
+                    x1 = x2;
+                    f1 = f2;
+                    x2 = a + (b - a) / phi;
+                    f2 = f(x2);
+                }
+            }
+
+            return (a + b) / 2;
+        }
+        double GoldenSectionSearchMax(Func<double, double> f, double a, double b, double epsilon)
+        {
+            double phi = (1 + Math.Sqrt(5)) / 2; // Золотое сечение
+
+            double x1 = b - (b - a) / phi;
+            double x2 = a + (b - a) / phi;
+            double f1 = f(x1);
+            double f2 = f(x2);
+
+            while (Math.Abs(b - a) > epsilon)
+            {
+                if (f1 > f2)
                 {
                     b = x2;
                     x2 = x1;
@@ -145,9 +176,10 @@ namespace DehotomiaM
                     this.chart1.Series[0].Points.AddXY(x, y);
                     x += 0.1;
                 }
-                double minimum = GoldenSectionSearch(F, a, b, Xi);
+                double minimum = GoldenSectionSearchMin(F, a, b, Xi);
+                double max = GoldenSectionSearchMax(F, a, b, Xi);
 
-                MessageBox.Show($"Локальный минимум: x = {minimum}, f(x) = {F(minimum)}");
+                MessageBox.Show($"Локальный минимум: x = {minimum},Локальный максимум: x = {max} f(x) = {F(minimum)}");
 
             }
             catch (Exception ex)
