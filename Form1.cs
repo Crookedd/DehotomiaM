@@ -30,7 +30,7 @@ namespace DehotomiaM
             return y;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+    private void button1_Click(object sender, EventArgs e)
         {
             try
             {
@@ -39,7 +39,6 @@ namespace DehotomiaM
                 {
                     throw new ArgumentException("Некорректные значения входных данных");
                 }
-
                 if (a >= b)
                 {
                     throw new ArgumentException("Некорректные границы интервала");
@@ -53,7 +52,38 @@ namespace DehotomiaM
                     this.chart1.Series[0].Points.AddXY(x, y);
                     x += 0.1;
                 }
+                double Root;
+                if (F(a) * F(b) <= 0)
+                {
+                    MessageBox.Show("Условие сходимости выполнено");
 
+                    while (true)
+                    {
+                        Root = (a + b) / 2;
+
+                        if (Math.Abs(F(Root)) < Xi)
+                        {
+                            break;
+                        }
+
+                        if (F(a) * F(Root) <= 0)
+                        {
+                            a = a;
+                            b = Root;
+                        }
+                        else
+                        {
+                            a = Root;
+                            b = b;
+                        }
+                    }
+
+                    MessageBox.Show("Корень равен " + Root + ".");
+                }
+                else
+                {
+                    throw new ArgumentException("Условие сходимости не выполнено");
+                }
                 double max, min;
                 double delta = Xi / 10;
                 while (b - a >= Xi)
@@ -83,8 +113,9 @@ namespace DehotomiaM
                         a = lambda;
                 }
                 max = (a + b) / 2;
+               // double Intersection = FindRoot(a, b, Xi);
 
-                MessageBox.Show($"Локальный минимум {min}; максимум {max}");
+                MessageBox.Show($"Локальный минимум {min}; максимум {max};");
             }
             catch (Exception ex)
             {
