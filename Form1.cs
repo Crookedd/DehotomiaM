@@ -30,7 +30,45 @@ namespace DehotomiaM
             return y;
         }
 
-    private void button1_Click(object sender, EventArgs e)
+       /* double RootX(Func<double, double> f, double a, double b, double epsilon)
+        {
+            double Root;
+            if (F(a) * F(b) <= 0)
+            {
+                MessageBox.Show("Условие сходимости выполнено");
+                Root = (a + b) / 2;
+
+                while (Math.Abs(b - a) > Math.Pow(10, -epsilon))
+                {
+                    double y1 = F(a), y2 = F(b), y3 = F(Root);
+                    if (y1 * y3 < 0)
+                    {
+                        b = Root;
+                    }
+                    else if (y2 * y3 < 0)
+                    {
+                        a = Root;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                    Root = (a + b) / 2;
+                }
+                if ((27 - 18 * Root + 2 * Math.Pow(Root, 2)) * Math.Exp(-Root / 3) < 0 + Root && (27 - 18 * Root + 2 * Math.Pow(Root, 2)) * Math.Exp(-Root / 3) > 0 - Root)
+                {
+                    return Math.Round(Root); ;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Условие сходимости не выполнено");
+            }
+
+            return 0;
+        }*/
+
+        private void button1_Click(object sender, EventArgs e)
         {
             try
             {
@@ -56,33 +94,37 @@ namespace DehotomiaM
                 if (F(a) * F(b) <= 0)
                 {
                     MessageBox.Show("Условие сходимости выполнено");
+                    Root = (a + b) / 2;
 
-                    while (true)
+                    while (Math.Abs(b - a) > Math.Pow(10, -Xi))
                     {
-                        Root = (a + b) / 2;
-
-                        if (Math.Abs(F(Root)) < Xi)
+                        double y1 = F(a), y2 = F(b), y3 = F(Root);
+                        if (y1 * y3 < 0)
                         {
-                            break;
-                        }
-
-                        if (F(a) * F(Root) <= 0)
-                        {
-                            a = a;
                             b = Root;
+                        }
+                        else if (y2 * y3 < 0)
+                        {
+                            a = Root;
                         }
                         else
                         {
-                            a = Root;
-                            b = b;
+                            break;
                         }
+                        Root = (a + b) / 2;
                     }
-
-                    MessageBox.Show("Корень равен " + Root + ".");
+                    if ((27 - 18 * Root + 2 * Math.Pow(Root, 2)) * Math.Exp(-Root  / 3) < 0 + Root && (27 - 18 * Root + 2 * Math.Pow(Root, 2)) * Math.Exp(-Root / 3) > 0 - Root)
+                    {
+                        MessageBox.Show("Корень равен " + Root + ".");
+                    }
                 }
                 else
                 {
                     throw new ArgumentException("Условие сходимости не выполнено");
+                }
+                if (!double.TryParse(textBox1.Text, out a) || !double.TryParse(textBox2.Text, out b) || !double.TryParse(textBox3.Text, out Xi))
+                {
+                    throw new ArgumentException("Некорректные значения входных данных");
                 }
                 double max, min;
                 double delta = Xi / 10;
@@ -113,7 +155,6 @@ namespace DehotomiaM
                         a = lambda;
                 }
                 max = (a + b) / 2;
-               // double Intersection = FindRoot(a, b, Xi);
 
                 MessageBox.Show($"Локальный минимум {min}; максимум {max};");
             }
