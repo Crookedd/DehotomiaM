@@ -26,47 +26,9 @@ namespace DehotomiaM
         }
         double Proisvodnaya(double x)
         {
-            double y = -1 * (2 * x * x * Math.Exp(-x / 3) / 3) + 10 * x * Math.Exp(-x / 3) - 27 * Math.Exp(-x / 3);
+            double y = (4*x-18)*Math.Exp(-(x/3)) - ((2 * Math.Pow(x, 2) - 18 * x + 27) * Math.Exp(-(x / 3)))/3;
             return y;
         }
-
-       /* double RootX(Func<double, double> f, double a, double b, double epsilon)
-        {
-            double Root;
-            if (F(a) * F(b) <= 0)
-            {
-                MessageBox.Show("Условие сходимости выполнено");
-                Root = (a + b) / 2;
-
-                while (Math.Abs(b - a) > Math.Pow(10, -epsilon))
-                {
-                    double y1 = F(a), y2 = F(b), y3 = F(Root);
-                    if (y1 * y3 < 0)
-                    {
-                        b = Root;
-                    }
-                    else if (y2 * y3 < 0)
-                    {
-                        a = Root;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                    Root = (a + b) / 2;
-                }
-                if ((27 - 18 * Root + 2 * Math.Pow(Root, 2)) * Math.Exp(-Root / 3) < 0 + Root && (27 - 18 * Root + 2 * Math.Pow(Root, 2)) * Math.Exp(-Root / 3) > 0 - Root)
-                {
-                    return Math.Round(Root); ;
-                }
-            }
-            else
-            {
-                throw new ArgumentException("Условие сходимости не выполнено");
-            }
-
-            return 0;
-        }*/
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -90,6 +52,7 @@ namespace DehotomiaM
                     this.chart1.Series[0].Points.AddXY(x, y);
                     x += 0.1;
                 }
+                Xi = (int)-Math.Log10(Xi);
                 double Root;
                 if (F(a) * F(b) <= 0)
                 {
@@ -163,67 +126,16 @@ namespace DehotomiaM
                 MessageBox.Show("Ошибка: " + ex.Message);
             }
         }
-        double GoldenSectionSearchMin(Func<double, double> f, double a, double b, double epsilon)
+        double MetodNewton(double a, double b, double epsilon)
         {
-            double phi = (1 + Math.Sqrt(5)) / 2; // Золотое сечение
+            double x0 = (a + b) / 2; // Начальное приближение
 
-            double x1 = b - (b - a) / phi;
-            double x2 = a + (b - a) / phi;
-            double f1 = f(x1);
-            double f2 = f(x2);
-
-            while (Math.Abs(b - a) > epsilon)
+            while (Math.Abs(Proisvodnaya(x0)) > epsilon)
             {
-                if (f1 < f2)
-                {
-                    b = x2;
-                    x2 = x1;
-                    f2 = f1;
-                    x1 = b - (b - a) / phi;
-                    f1 = f(x1);
-                }
-                else
-                {
-                    a = x1;
-                    x1 = x2;
-                    f1 = f2;
-                    x2 = a + (b - a) / phi;
-                    f2 = f(x2);
-                }
+                x0 = x0 - Proisvodnaya(x0) / F(x0);
             }
 
-            return (a + b) / 2;
-        }
-        double GoldenSectionSearchMax(Func<double, double> f, double a, double b, double epsilon)
-        {
-            double phi = (1 + Math.Sqrt(5)) / 2; // Золотое сечение
-
-            double x1 = b - (b - a) / phi;
-            double x2 = a + (b - a) / phi;
-            double f1 = f(x1);
-            double f2 = f(x2);
-
-            while (Math.Abs(b - a) > epsilon)
-            {
-                if (f1 > f2)
-                {
-                    b = x2;
-                    x2 = x1;
-                    f2 = f1;
-                    x1 = b - (b - a) / phi;
-                    f1 = f(x1);
-                }
-                else
-                {
-                    a = x1;
-                    x1 = x2;
-                    f1 = f2;
-                    x2 = a + (b - a) / phi;
-                    f2 = f(x2);
-                }
-            }
-
-            return (a + b) / 2;
+            return x0;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -239,6 +151,7 @@ namespace DehotomiaM
                 {
                     throw new ArgumentException("Некорректные границы интервала");
                 }
+                Xi = (int)-Math.Log10(Xi);
                 this.chart1.Series[0].Points.Clear();
                 double x = a;
                 double y;
@@ -248,10 +161,11 @@ namespace DehotomiaM
                     this.chart1.Series[0].Points.AddXY(x, y);
                     x += 0.1;
                 }
-                double minimum = GoldenSectionSearchMin(F, a, b, Xi);
-                double max = GoldenSectionSearchMax(F, a, b, Xi);
 
-                MessageBox.Show($"Локальный минимум: x = {minimum},Локальный максимум: x = {max} f(x) = {F(minimum)}");
+                double minimum = MetodNewton(a, b, Xi);
+                double max = MetodNewton(a, b, -Xi);
+
+                MessageBox.Show($"Локальный минимум: x = {minimum},Локальный максимум: x = {max};");
 
             }
             catch (Exception ex)
