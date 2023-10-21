@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace DehotomiaM
 {
@@ -75,15 +76,16 @@ namespace DehotomiaM
                             break;
                         }
                         Root = (a + b) / 2;
+
                     }
                     if ((27 - 18 * Root + 2 * Math.Pow(Root, 2)) * Math.Exp(-Root  / 3) < 0 + Root && (27 - 18 * Root + 2 * Math.Pow(Root, 2)) * Math.Exp(-Root / 3) > 0 - Root)
                     {
-                        MessageBox.Show("Корень равен " + Root + ".");
+                        textBox4.Text = Root.ToString(); ;
                     }
                 }
                 else
                 {
-                    throw new ArgumentException("Условие сходимости не выполнено");
+                    throw new ArgumentException("Нет корней на этом интервале или их больше одного");
                 }
                 if (!double.TryParse(textBox1.Text, out a) || !double.TryParse(textBox2.Text, out b) || !double.TryParse(textBox3.Text, out Xi))
                 {
@@ -119,7 +121,8 @@ namespace DehotomiaM
                 }
                 max = (a + b) / 2;
 
-                MessageBox.Show($"Локальный минимум {min}; максимум {max};");
+                textBox5.Text = min.ToString();
+                textBox6.Text = max.ToString();
             }
             catch (Exception ex)
             {
