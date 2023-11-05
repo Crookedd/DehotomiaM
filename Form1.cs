@@ -9,6 +9,12 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using org.matheval;
+using MathNet.Numerics;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.Differentiation;
+using System.Net;
+using MathNet.Numerics.Differentiation;
 
 namespace DehotomiaM
 {
@@ -18,19 +24,13 @@ namespace DehotomiaM
         {
             InitializeComponent();
         }
-        double F(double x)
+        double F(double X)
         {
-            double f;
-            f = (27 - 18 * x + 2 * Math.Pow(x, 2)) * Math.Exp(-(x / 3));
-
-            return f;
+            org.matheval.Expression expression = new org.matheval.Expression(textBox7.Text.ToLower());
+            expression.Bind("x", X);
+            decimal value = expression.Eval<decimal>();
+            return (double)value;
         }
-        double Proisvodnaya(double x)
-        {
-            double y = (4*x-18)*Math.Exp(-(x/3)) - ((2 * Math.Pow(x, 2) - 18 * x + 27) * Math.Exp(-(x / 3)))/3;
-            return y;
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             try
@@ -78,7 +78,7 @@ namespace DehotomiaM
                         Root = (a + b) / 2;
 
                     }
-                    if ((27 - 18 * Root + 2 * Math.Pow(Root, 2)) * Math.Exp(-Root  / 3) < 0 + Root && (27 - 18 * Root + 2 * Math.Pow(Root, 2)) * Math.Exp(-Root / 3) > 0 - Root)
+                    if ((27 - 18 * Root + 2 * Math.Pow(Root, 2)) * Math.Exp(-Root / 3) < 0 + Root && (27 - 18 * Root + 2 * Math.Pow(Root, 2)) * Math.Exp(-Root / 3) > 0 - Root)
                     {
                         textBox4.Text = Root.ToString(); ;
                     }
@@ -129,18 +129,127 @@ namespace DehotomiaM
                 MessageBox.Show("Ошибка: " + ex.Message);
             }
         }
-        double MetodNewton(double a, double b, double epsilon)
+        public void GoldenSectionSearchMin(Func<double, double> f, double StartPoint, double EndPoint, double epsilon)
         {
-            double x0 = (a + b) / 2; // Начальное приближение
-
-            while (Math.Abs(Proisvodnaya(x0)) > epsilon)
+            double x1, x2, k1, k2, F1, F2, Result;
+            int count = 0;
+            k2 = (Math.Sqrt(5) - 1) / 2;
+            k1 = 1 - k2;
+            x1 = StartPoint + k1 * (EndPoint - StartPoint);
+            x2 = StartPoint + k2 * (EndPoint - StartPoint);
+            try
             {
-                x0 = x0 - Proisvodnaya(x0) / F(x0);
-            }
+                F1 = F(x1);
+                F2 = F(x2);
+                while (true)
+                {
+                    ++count;
+                    if ((EndPoint - StartPoint) < epsilon)
+                    {
+                        Result = (StartPoint + EndPoint) / 2;
+                        textBox5.Text = Result.ToString();
+                        break;
+                    }
+                    else
+                    {
+                        if (F1 < F2)
+                        {
+                            EndPoint = x2;
+                            x2 = x1;
+                            F2 = F1;
+                            x1 = StartPoint + k1 * (EndPoint - StartPoint);
+                            F1 = F(x1);
+                        }
+                        else
+                        {
+                            StartPoint = x1;
+                            x1 = x2;
+                            F2 = F1;
+                            x2 = StartPoint + k2 * (EndPoint - StartPoint);
+                            F2 = F(x2);
+                        }
+                    }
 
-            return x0;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+            }
+        }
+        public void GoldenSectionSearchMax(Func<double, double> f, double StartPoint, double EndPoint, double epsilon)
+        {
+            double x1, x2, k1, k2, F1, F2, Result;
+            int count = 0;
+            k2 = (Math.Sqrt(5) - 1) / 2;
+            k1 = 1 - k2;
+            x1 = StartPoint + k1 * (EndPoint - StartPoint);
+            x2 = StartPoint + k2 * (EndPoint - StartPoint);
+            try
+            {
+                F1 = F(x1);
+                F2 = F(x2);
+                while (true)
+                {
+                    ++count;
+                    if ((EndPoint - StartPoint) < epsilon)
+                    {
+                        Result = (StartPoint + EndPoint) / 2;
+                        textBox6.Text = Result.ToString();
+                        break;
+                    }
+                    else
+                    {
+                        if (F1 > F2)
+                        {
+                            EndPoint = x2;
+                            x2 = x1;
+                            F2 = F1;
+                            x1 = StartPoint + k1 * (EndPoint - StartPoint);
+                            F1 = F(x1);
+                        }
+                        else
+                        {
+                            StartPoint = x1;
+                            x1 = x2;
+                            F2 = F1;
+                            x2 = StartPoint + k2 * (EndPoint - StartPoint);
+                            F2 = F(x2);
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+            }
         }
 
+        public double MethodOfNewton(double a, double b, double accuracy)
+        {
+            double x0;
+
+            x0 = (a + b) / 2;
+            if (Math.Abs(F(x0)) > accuracy && Math.Abs(Differentiate.FirstDerivative(F, x0)) > accuracy && Math.Abs(Differentiate.SecondDerivative(F, x0)) > accuracy)
+            {
+
+                double x1 = x0;
+
+                do
+                {
+                    x0 = x1;
+                    x1 = x0 - (Differentiate.FirstDerivative(F, x0) / Differentiate.SecondDerivative(F, x0));
+                } while (Math.Abs(x1 - x0) >= accuracy);
+
+                return x1;
+            }
+            else
+            {
+                throw new ArgumentException("Первая или вторая производная обращаются к нулю. Введите другую функцию");
+            }
+
+        }
         private void button2_Click(object sender, EventArgs e)
         {
             try
@@ -154,7 +263,6 @@ namespace DehotomiaM
                 {
                     throw new ArgumentException("Некорректные границы интервала");
                 }
-                Xi = (int)-Math.Log10(Xi);
                 this.chart1.Series[0].Points.Clear();
                 double x = a;
                 double y;
@@ -164,12 +272,10 @@ namespace DehotomiaM
                     this.chart1.Series[0].Points.AddXY(x, y);
                     x += 0.1;
                 }
-
-                double minimum = MetodNewton(a, b, Xi);
-                double max = MetodNewton(a, b, -Xi);
-
-                MessageBox.Show($"Локальный минимум: x = {minimum},Локальный максимум: x = {max};");
-
+                GoldenSectionSearchMax(F, a, b, Xi);
+                GoldenSectionSearchMin(F, a, b, Xi);
+                double root = MethodOfNewton(a, b, Xi);
+                textBox4.Text = root.ToString();
             }
             catch (Exception ex)
             {
