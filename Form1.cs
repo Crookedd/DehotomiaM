@@ -228,11 +228,13 @@ namespace DehotomiaM
 
         public double MethodOfNewton(double a, double b, double accuracy)
         {
+            
             double x0;
 
             x0 = (a + b) / 2;
             if (Math.Abs(F(x0)) > accuracy && Math.Abs(Differentiate.FirstDerivative(F, x0)) > accuracy && Math.Abs(Differentiate.SecondDerivative(F, x0)) > accuracy)
             {
+                accuracy = (int)-Math.Log10(accuracy);
 
                 double x1 = x0;
 
@@ -272,6 +274,7 @@ namespace DehotomiaM
                     this.chart1.Series[0].Points.AddXY(x, y);
                     x += 0.1;
                 }
+
                 GoldenSectionSearchMax(F, a, b, Xi);
                 GoldenSectionSearchMin(F, a, b, Xi);
                 double root = MethodOfNewton(a, b, Xi);
