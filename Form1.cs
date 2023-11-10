@@ -278,5 +278,11 @@ namespace DehotomiaM
             }
 
         }
+        Form2 F2;
+        private void сортировкаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            F2 = new Form2();
+            F2.Show();
+        }
     }
 }
