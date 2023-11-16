@@ -269,7 +269,7 @@ namespace DehotomiaM
 
                 GoldenSectionSearchMax(F, a, b, Xi);
                 GoldenSectionSearchMin(F, a, b, Xi);
-                double root = MethodOfNewton(a, b, Xi = (int)-Math.Log10(Xi));
+                double root = MethodOfNewton(a, b, Xi);
                 textBox4.Text = root.ToString();
             }
             catch (Exception ex)
