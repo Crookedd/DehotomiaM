@@ -205,6 +205,8 @@ namespace DehotomiaM
 
         private void InsertionSort(List<double> list, SortOrder sortOrder)
         {
+            // начинаем со второго элемента (элемент с индексом 0
+            // уже отсортировано)
             double n = list.Count;
             for (int i = 1; i < n; i++)
             {
@@ -235,6 +237,8 @@ namespace DehotomiaM
             UpdateChart(list);
             count++;
         }
+
+        //Функция для нахождения основного элемена
         static int Partition(List<double> list, int left, int right, SortOrder sortOrder)
         {
             double pivot = list[right];
@@ -301,6 +305,8 @@ namespace DehotomiaM
         {
             Random random = new Random();
 
+            //Проверка упорядоченности массива
+
             while (!IsSorted(list, sortOrder))
             {
                 Shuffle(list, random);
@@ -308,6 +314,7 @@ namespace DehotomiaM
             UpdateChart(list);
             count++;
         }
+        //Встряхиваем рандомно все значения, в надежде,что все значения встанут правильно. 
         static void Shuffle(List<double> list, Random random)//, Random random)
         {
             int n = list.Count;
@@ -322,6 +329,7 @@ namespace DehotomiaM
             }
         }
 
+        //Проверяем отсортирован ли массив? 
         static bool IsSorted(List<double> list, SortOrder sortOrder)
         {
             for (int i = 1; i < list.Count; i++)
