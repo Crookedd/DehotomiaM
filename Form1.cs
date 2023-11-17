@@ -283,6 +283,7 @@ namespace DehotomiaM
         {
             F2 = new Form2();
             F2.Show();
+
         }
     }
 }
