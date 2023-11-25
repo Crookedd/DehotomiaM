@@ -292,7 +292,7 @@ namespace DehotomiaM
 
         }
 
-        void DescentMethodRoot(double a, double b, double epsilon)
+       /* void DescentMethodRoot(double a, double b, double epsilon)
         {
 
             double x = (a + b) / 2; // Начальное приближение
@@ -320,7 +320,7 @@ namespace DehotomiaM
 
             textBox4.Text = x.ToString();
 
-        }
+        }*/
         public double CoordinateDescentMin(double interval1, double interval2, int accuracy)
         {
             double a = interval1, b = interval2;
@@ -380,7 +380,7 @@ namespace DehotomiaM
                     this.chart1.Series[0].Points.AddXY(x, y);
                     x += 0.1;
                 }
-                DescentMethodRoot(a, b, Xi);
+              //  DescentMethodRoot(a, b, Xi);
 
                 double resultMin = CoordinateDescentMin(a, b, (int)-Math.Log10(Xi));
                 double resultMax = AntiCoordinateDescent(a, b, (int)-Math.Log10(Xi));

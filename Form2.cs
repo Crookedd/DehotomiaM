@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Windows.Forms;
 using System.Diagnostics;
+using MathNet.Numerics.LinearAlgebra.Factorization;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace DehotomiaM
 {
@@ -76,11 +78,16 @@ namespace DehotomiaM
         private void GenerateRandomData()
         {
             dataGridView1.Rows.Clear();
+            double a;
+            if (!double.TryParse(textBox2.Text, out a))
+            {
+                throw new ArgumentException("Некорректные значения входных данных");
+            }
             var RandomNumber = new Random((int)Stopwatch.GetTimestamp());
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < a; i++)
             {
                 double number;
-                number = RandomNumber.Next(-10, 10) * 3 - 10 + 15;
+                number = RandomNumber.Next(-10000, 10000) - 10 + 15;
                 dataGridView1.Rows.Add(number);
             }
         }
@@ -89,18 +96,14 @@ namespace DehotomiaM
         {
             SortNumbers(SortOrder.Ascending);
         }
-        private void QuickSortWrapper(List<double> list, SortOrder sortOrder)
-        {
-            List<double> copy = new List<double>(list);
-            QuickSort(copy, 0, copy.Count - 1, sortOrder);
-        }
 
         public struct SortStats
         {
             public double Time { get; set; }
             public int Iterations { get; set; }
+
         }
-        private void SortNumbers(SortOrder sortOrder)
+        public void SortNumbers(SortOrder sortOrder)
         {  // выбрана ли хотя бы однасортировка?
             if (!checkBox1.Checked && !checkBox2.Checked && !checkBox3.Checked &&
                 !checkBox4.Checked && !checkBox5.Checked)
@@ -117,50 +120,54 @@ namespace DehotomiaM
                 }
             }
             Dictionary<string, SortStats> sortStats = new Dictionary<string, SortStats>();
+            bool ascendingKey = true;
 
+            if (checkBox2.Checked)
+            {
+                sortStats["Быстрая"] = MeasureSortingStats(() => QuickSort(dataGridViewNumbers, 0, dataGridViewNumbers.Count - 1, sortOrder, ascendingKey));
+            }
+            if (checkBox3.Checked)
+            {
+                sortStats["Шейкерная"] = MeasureSortingStats(() => ShakerSort(dataGridViewNumbers, sortOrder));
+            }
             if (checkBox1.Checked)
             {
                 sortStats["Пузырьковая"] = MeasureSortingStats(() => BubbleSort(dataGridViewNumbers, sortOrder));
             }
             if (checkBox5.Checked)
             {
-                sortStats["Вставками"] = MeasureSortingStats(() => InsertionSort(dataGridViewNumbers, sortOrder));
-            }
-            if (checkBox3.Checked)
-            {
-                sortStats["Шейкерная"] = MeasureSortingStats(() => ShakerSort(dataGridViewNumbers, sortOrder));
-            }
-            if (checkBox2.Checked)
-            {
-                sortStats["Быстрая"] = MeasureSortingStats(() => QuickSortWrapper(dataGridViewNumbers, sortOrder));
+                sortStats["Вставками"] = MeasureSortingStats(() => InsertionSort(dataGridViewNumbers, sortOrder, ascendingKey));
             }
             if (checkBox4.Checked)
             {
                 sortStats["BOGO"] = MeasureSortingStats(() => BogoSort(dataGridViewNumbers, sortOrder));
             }
+            textBox1.Clear();
             StringBuilder resultBuilder = new StringBuilder();
             foreach (var kvp in sortStats)
             {
                 resultBuilder.AppendLine($"{kvp.Key}: \r\nВремя выполнения - {kvp.Value.Time} нс, Количество итераций - {kvp.Value.Iterations}");
             }
-            textBox1.Clear();
-            string text = "";
+            string text2 = "";
             for (int i = 0; i < dataGridViewNumbers.Count; i++)
             {
-                text += dataGridViewNumbers[i].ToString() + " ";
+                text2 += dataGridViewNumbers[i].ToString() + " ";
             }
-            textBox1.Text = "Отсортированный массив :" + "\r\n\r\n" + text + "\r\n\r\n" + "Результаты сортировок: " + "\r\n\r\n" + resultBuilder;
+            textBox1.Text = "Отсортированный массив :" + "\r\n\r\n" + text2;// + "\r\n\r\n" + "Результаты сортировок: " + resultBuilder;
+            textBox3.Text = "Результаты сортировок: " + resultBuilder;
         }
+        // int count = 0;
         private SortStats MeasureSortingStats(Action sortingAction)
         {
+            //count = 0;
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             sortingAction();
             stopwatch.Stop();
-            double time = (double)stopwatch.ElapsedTicks / Stopwatch.Frequency * 1000000000;
+            double time = (double)stopwatch.ElapsedTicks / Stopwatch.Frequency * 1000000000; //получает общее затраченное время и делим на частоту тактов в секунду и умножаем на 
             return new SortStats { Time = time, Iterations = count };
         }
-
+        
         private void UpdateChart(List<double> list)
         {
             chart1.Series.Clear();
@@ -173,81 +180,104 @@ namespace DehotomiaM
 
             chart1.Invalidate();
         }
-
         int count;
-        private void BubbleSort(List<double> list, SortOrder sortOrder)
+        void BubbleSort(List<double> list, SortOrder sortOrder)
         {
-
-            int n = list.Count;
+            List<double> dataGridViewNumbers = new List<double>();
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                if (row.Cells[0].Value != null && double.TryParse(row.Cells[0].Value.ToString(), out double number))
+                {
+                    dataGridViewNumbers.Add(number);
+                }
+            }
+            count = 0;
+            int n = dataGridViewNumbers.Count;
             double temp;
             for (int i = 0; i < n - 1; i++)
             {
-                //count++;
                 for (int j = 0; j < n - i - 1; j++)
                 {
-                    ++count;
-                    if ((sortOrder == SortOrder.Ascending && list[j] > list[j + 1]) ||
-                        (sortOrder == SortOrder.Descending && list[j] < list[j + 1]))
+                   
+                    if ((sortOrder == SortOrder.Ascending && dataGridViewNumbers[j] > dataGridViewNumbers[j + 1]) ||
+                        (sortOrder == SortOrder.Descending && dataGridViewNumbers[j] < dataGridViewNumbers[j + 1]))
                     {
-                        temp = list[j];
-                        list[j] = list[j + 1];
-                        list[j + 1] = temp;
+                        temp = dataGridViewNumbers[j];
+                        dataGridViewNumbers[j] = dataGridViewNumbers[j + 1];
+                        dataGridViewNumbers[j + 1] = temp;
 
-                        UpdateChart(list);
-
+                       // UpdateChart(list);
+                       count++;
                     }
+                    
                 }
-                count++;
             }
-            //MessageBox.Show($"Iterations: {count}");
+            UpdateChart(list);
         }
-
-
-        private void InsertionSort(List<double> list, SortOrder sortOrder)
+        private string Insertion = string.Empty;
+        //count = 0;
+        void InsertionSort(List<double> list, SortOrder sortOrder,bool ascending)
         {
             // начинаем со второго элемента (элемент с индексом 0
             // уже отсортировано)
-            double n = list.Count;
-            for (int i = 1; i < n; i++)
+            List<double> dataGridViewNumbers = new List<double>();
+            foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-                double k = list[i];
-                int j = i - 1;
-
-                while ((j >= 0 && sortOrder == SortOrder.Ascending && list[j] > k) ||
-                       (j >= 0 && sortOrder == SortOrder.Descending && list[j] > k))
+                if (row.Cells[0].Value != null && double.TryParse(row.Cells[0].Value.ToString(), out double number))
                 {
-                    list[j + 1] = list[j];
-                    list[j] = k;
-                    j--;
-                    UpdateChart(list);
-                    count++;
+                    dataGridViewNumbers.Add(number);
                 }
             }
+            count = 0;
+            double n = dataGridViewNumbers.Count;
+            for (int i = 1; i < n; i++)
+            {
+                double k = dataGridViewNumbers[i];
+                int j = i - 1;
+               // count++;
+                while (j >= 0 && ((ascending && list[j] > k) || (!ascending && dataGridViewNumbers[j] < k)))
+                {
+                    count++;
+                    dataGridViewNumbers[j + 1] = dataGridViewNumbers[j];
+                    dataGridViewNumbers[j] = k;
+                    j--;
+                    // UpdateChart(list);
+                   
+                }
+                dataGridViewNumbers[j + 1] = k;
+            }
+            Insertion = "Итерации Вставками  " + count.ToString();
+            UpdateChart(list);
         }
 
-        private void QuickSort(List<double> list, int left, int right, SortOrder sortOrder)
+        private void QuickSort(List<double> list, int left, int right, SortOrder sortOrder, bool ascending)
         {
+             count = 0;
             if (left < right)
             {
-                int pivot = Partition(list, left, right, sortOrder);
+                int pivot = Partition(list, left, right, sortOrder, ascending);
 
-                QuickSort(list, left, pivot - 1, sortOrder);
-                QuickSort(list, pivot + 1, right, sortOrder);
+                QuickSort(list, left, pivot - 1, sortOrder, ascending);
+                QuickSort(list, pivot + 1, right, sortOrder, ascending);
+                count++;
             }
             UpdateChart(list);
-            count++;
+            //count++;
+
         }
 
+
         //Функция для нахождения основного элемена
-        static int Partition(List<double> list, int left, int right, SortOrder sortOrder)
+         int Partition(List<double> list, int left, int right, SortOrder sortOrder, bool ascending)
         {
+            count = 0;
             double pivot = list[right];
             int i = (left - 1);
 
             for (int j = left; j < right; j++)
             {
-                if ((sortOrder == SortOrder.Ascending && list[j] <= pivot) ||
-                    (sortOrder == SortOrder.Descending && list[j] <= pivot))
+                count++;
+                if ((ascending && list[j] <= pivot) || (!ascending && list[j] >= pivot))
                 {
                     i++;
                     double temp = list[i];
@@ -258,89 +288,119 @@ namespace DehotomiaM
             double temp1 = list[i + 1];
             list[i + 1] = list[right];
             list[right] = temp1;
-
             return i + 1;
         }
 
-        private void ShakerSort(List<double> list, SortOrder sortOrder)
+        private string Shaker = string.Empty;
+        void ShakerSort(List<double> list, SortOrder sortOrder)
         {
+            count = 0;
+            List<double> dataGridViewNumbers = new List<double>();
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                if (row.Cells[0].Value != null && double.TryParse(row.Cells[0].Value.ToString(), out double number))
+                {
+                    dataGridViewNumbers.Add(number);
+                }
+            }
+
             int left = 0;
-            int right = list.Count - 1;
+            int right = dataGridViewNumbers.Count - 1;
             bool swapped = true;
+            int count1 = 0;
+            int count2 = 0;
             while (left < right && swapped)
             {
+              // count++;
                 swapped = false;
                 for (int i = left; i < right; ++i)
                 {
-                    if ((sortOrder == SortOrder.Ascending && list[i] > list[i + 1]) ||
-                        (sortOrder == SortOrder.Descending && list[i] > list[i + 1]))
+                    if ((sortOrder == SortOrder.Ascending && dataGridViewNumbers[i] > dataGridViewNumbers[i + 1]) ||
+                        (sortOrder == SortOrder.Descending && dataGridViewNumbers[i] > dataGridViewNumbers[i + 1]))
                     {
-                        Swap(list, i, i + 1);
+                        double temp = dataGridViewNumbers[i];
+                        dataGridViewNumbers[i] = dataGridViewNumbers[i + 1];
+                        dataGridViewNumbers[i + 1] = temp;
                         swapped = true;
                     }
+                    count1++;
                 }
                 --right;
                 for (int i = right; i > left; --i)
                 {
-                    if ((sortOrder == SortOrder.Ascending && list[i] < list[i - 1]) ||
-                        (sortOrder == SortOrder.Ascending && list[i] < list[i - 1]))
+                    if ((sortOrder == SortOrder.Descending && dataGridViewNumbers[i] < dataGridViewNumbers[i - 1]) ||
+                        (sortOrder == SortOrder.Ascending && dataGridViewNumbers[i] < dataGridViewNumbers[i - 1]))
                     {
-                        Swap(list, i, i - 1);
+                        double temp = dataGridViewNumbers[i];
+                        dataGridViewNumbers[i] = list[i - 1];
+                        dataGridViewNumbers[i - 1] = temp;
+                     //   Swap(list, i, i - 1);
                         swapped = true;
                     }
+                    count2++;
                 }
                 ++left;
                 UpdateChart(list);
+                count = count1 + count2;
+            }
+        }
+        
+        void BogoSort(List<double> list, SortOrder sortOrder)
+        {
+            count = 0;
+            List<double> dataGridViewNumbers = new List<double>();
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                if (row.Cells[0].Value != null && double.TryParse(row.Cells[0].Value.ToString(), out double number))
+                {
+                    dataGridViewNumbers.Add(number);
+                }
+            }
+            Random random = new Random();
+            //Проверка упорядоченности массива
+            while (!IsSorted(dataGridViewNumbers, sortOrder))
+            {
+               // count++;
+                Shuffle(dataGridViewNumbers, random);
                 count++;
             }
-        }
-        static void Swap(List<double> list, int i, int j)
-        {
-            double temp = list[i];
-            list[i] = list[j];
-            list[j] = temp;
-        }
-
-        private void BogoSort(List<double> list, SortOrder sortOrder)
-        {
-            Random random = new Random();
-
-            //Проверка упорядоченности массива
-
-            while (!IsSorted(list, sortOrder))
-            {
-                Shuffle(list, random);
-            }
             UpdateChart(list);
-            count++;
+
         }
         //Встряхиваем рандомно все значения, в надежде,что все значения встанут правильно. 
-        static void Shuffle(List<double> list, Random random)//, Random random)
-        {
-            int n = list.Count;
-            //Random rand = new Random();
-            while (n > 1)
-            {
-                --n;
-                int randomIndex = random.Next(n + 1);
-                double temp = list[randomIndex];
-                list[randomIndex] = list[n];
-                list[n] = temp;
-            }
-        }
+
+        void Shuffle(List<double> list, Random random)
+         {
+             int n = list.Count;
+           //  Random random = new Random();
+             while (n > 1)
+             {
+                 --n;
+                 int randomIndex = random.Next(n + 1);
+                 double temp = list[randomIndex];
+                 list[randomIndex] = list[n];
+                 list[n] = temp;
+             }
+         }
+
 
         //Проверяем отсортирован ли массив? 
         static bool IsSorted(List<double> list, SortOrder sortOrder)
         {
-            for (int i = 1; i < list.Count; i++)
+            for (int i = 0; i < list.Count - 1; i++)
             {
-                if ((sortOrder == SortOrder.Ascending && list[i - 1] > list[i]) ||
-                    (sortOrder == SortOrder.Descending && list[i - 1] < list[i]))
+                if (list[i] > list[i + 1])
                 {
                     return false;
                 }
             }
+
             return true;
+        }
+
+        private void deledToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            textBox1.Clear();
         }
     }
 }
