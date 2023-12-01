@@ -16,6 +16,8 @@ using MathNet.Numerics.Differentiation;
 using System.Net;
 using MathNet.Numerics.Differentiation;
 using System.Diagnostics;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace DehotomiaM
 {
@@ -358,7 +360,7 @@ namespace DehotomiaM
             return Math.Round(x, accuracy); // Возвращаем значение x с заданной точностью n
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        public void button3_Click(object sender, EventArgs e)
         {
             try
             {
@@ -372,15 +374,27 @@ namespace DehotomiaM
                     throw new ArgumentException("Некорректные границы интервала");
                 }
                 this.chart1.Series[0].Points.Clear();
-                double x = a;
+               // Dictionary <double, double>  f1 = new Dictionary<double, double>();
+                this.chart1.Series[0].ChartType = SeriesChartType.Line;
+                this.chart1.Series[0].MarkerStyle = MarkerStyle.Circle;
+
+              /*  this.chart1.ChartAreas[0].AxisY.ScaleBreakStyle.Enabled = true;
+                this.chart1.ChartAreas[0].AxisY.ScaleBreakStyle.CollapsibleSpaceThreshold = 25;
+                this.chart1.ChartAreas[0].AxisY.ScaleBreakStyle.LineWidth = 2;
+                this.chart1.ChartAreas[0].AxisY.ScaleBreakStyle.LineColor = Color.Red;
+                this.chart1.ChartAreas[0].AxisY.ScaleBreakStyle.StartFromZero = StartFromZero.Auto;
+                this.chart1.ChartAreas[0].AxisY.ScaleBreakStyle.Spacing = 2;*/
+               // double x = a;
                 double y;
-                while (x <= b)
+                for (double x = a; x <= b; x +=0.1)
                 {
                     y = F(x);
-                    this.chart1.Series[0].Points.AddXY(x, y);
-                    x += 0.1;
+                    this.chart1.Series[0].Points.AddXY(x,y);
+                  //  x += 0.1;
                 }
-              //  DescentMethodRoot(a, b, Xi);
+                this.chart1.Series[0].Color = Color.Green;
+                this.chart1.Series[0].BorderWidth = 2;
+                //  DescentMethodRoot(a, b, Xi);
 
                 double resultMin = CoordinateDescentMin(a, b, (int)-Math.Log10(Xi));
                 double resultMax = AntiCoordinateDescent(a, b, (int)-Math.Log10(Xi));
