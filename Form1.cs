@@ -293,36 +293,37 @@ namespace DehotomiaM
             F2.Show();
 
         }
+        Form3 F3;
 
-       /* void DescentMethodRoot(double a, double b, double epsilon)
-        {
+        /* void DescentMethodRoot(double a, double b, double epsilon)
+         {
 
-            double x = (a + b) / 2; // Начальное приближение
+             double x = (a + b) / 2; // Начальное приближение
 
-            while (Math.Abs(F(x)) > epsilon)
-            {
-                // Обновление координаты x по очереди
-                for (int i = 0; i < 100; i++) // Максимальное количество итераций
-                {
-                    double prevX = x;
-                    x = a + (F(b) * (b - a)) / (F(b) - F(a));
-                    if (Math.Abs(F(x)) <= epsilon || Math.Abs(x - prevX) <= epsilon)
-                        break;
-                    if (F(x) * F(a) < 0)
-                        b = x;
-                    else
-                        a = x;
-                }
-                if (F(x) * F(a) < 0)
-                    b = x;
-                else
-                    a = x;
-            }
+             while (Math.Abs(F(x)) > epsilon)
+             {
+                 // Обновление координаты x по очереди
+                 for (int i = 0; i < 100; i++) // Максимальное количество итераций
+                 {
+                     double prevX = x;
+                     x = a + (F(b) * (b - a)) / (F(b) - F(a));
+                     if (Math.Abs(F(x)) <= epsilon || Math.Abs(x - prevX) <= epsilon)
+                         break;
+                     if (F(x) * F(a) < 0)
+                         b = x;
+                     else
+                         a = x;
+                 }
+                 if (F(x) * F(a) < 0)
+                     b = x;
+                 else
+                     a = x;
+             }
 
 
-            textBox4.Text = x.ToString();
+             textBox4.Text = x.ToString();
 
-        }*/
+         }*/
         public double CoordinateDescentMin(double interval1, double interval2, int accuracy)
         {
             double a = interval1, b = interval2;
@@ -423,6 +424,12 @@ namespace DehotomiaM
             }
 
 
+        }
+
+        private void интегралыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            F3 = new Form3();
+            F3.Show();
         }
     }
 }
