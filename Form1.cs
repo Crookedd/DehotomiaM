@@ -378,18 +378,17 @@ namespace DehotomiaM
                 this.chart1.Series[0].ChartType = SeriesChartType.Line;
                 this.chart1.Series[0].MarkerStyle = MarkerStyle.Circle;
 
-              /*  this.chart1.ChartAreas[0].AxisY.ScaleBreakStyle.Enabled = true;
-                this.chart1.ChartAreas[0].AxisY.ScaleBreakStyle.CollapsibleSpaceThreshold = 25;
-                this.chart1.ChartAreas[0].AxisY.ScaleBreakStyle.LineWidth = 2;
-                this.chart1.ChartAreas[0].AxisY.ScaleBreakStyle.LineColor = Color.Red;
-                this.chart1.ChartAreas[0].AxisY.ScaleBreakStyle.StartFromZero = StartFromZero.Auto;
-                this.chart1.ChartAreas[0].AxisY.ScaleBreakStyle.Spacing = 2;*/
-               // double x = a;
                 double y;
+                double c = 1;
                 for (double x = a; x <= b; x +=0.1)
                 {
                     y = F(x);
-                    this.chart1.Series[0].Points.AddXY(x,y);
+                    if (x == 0)
+                        y = 0;
+                    this.chart1.Series[0].Points.AddXY(x, y);
+
+                  //  y = F(x);
+                  //  this.chart1.Series[0].Points.AddXY(x,y);
                   //  x += 0.1;
                 }
                 this.chart1.Series[0].Color = Color.Green;
@@ -410,7 +409,7 @@ namespace DehotomiaM
                 }
                 if (resultMax == a || resultMax == b)
                 {
-                    throw new ArgumentException("Точки максимум нет на данном интервале");
+                    throw new ArgumentException("Точки максимум нет на данном интервале");  
                 }
                 else
                 {
