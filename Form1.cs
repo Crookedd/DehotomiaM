@@ -378,6 +378,7 @@ namespace DehotomiaM
                 this.chart1.Series[0].ChartType = SeriesChartType.Line;
                 this.chart1.Series[0].MarkerStyle = MarkerStyle.Circle;
 
+
                 double y;
                 double c = 1;
                 for (double x = a; x <= b; x +=0.1)
