@@ -54,7 +54,7 @@ namespace DehotomiaM
             }
             if (!double.TryParse(textBoxE.Text, out Xi) && !int.TryParse(textBoxN.Text, out n))
             {
-                throw new ArgumentException("Введите корректное значение для точности (e) или числа шагов (n)");
+                throw new ArgumentException("Некорректные значения входных данных");
             }
 
             this.chart1.Series[0].Points.Clear();
