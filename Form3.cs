@@ -44,7 +44,7 @@ namespace DehotomiaM
             double a, b, Xi;
             int n;
             string text = "";
-            if (!double.TryParse(textBoxA.Text, out a) || !double.TryParse(textBoxB.Text, out b) || !int.TryParse(textBoxN.Text, out n))
+            if (!double.TryParse(textBoxA.Text, out a) || !double.TryParse(textBoxB.Text, out b))
             {
                 throw new ArgumentException("Некорректные значения входных данных");
             }
@@ -52,6 +52,11 @@ namespace DehotomiaM
             {
                 throw new ArgumentException("Некорректные границы интервала");
             }
+            if (!double.TryParse(textBoxE.Text, out Xi) && !int.TryParse(textBoxN.Text, out n))
+            {
+                throw new ArgumentException("Введите корректное значение для точности (e) или числа шагов (n)");
+            }
+
             this.chart1.Series[0].Points.Clear();
             double x = a;
             double y;
@@ -65,32 +70,62 @@ namespace DehotomiaM
             AddVerticalLine(chart1.ChartAreas[0], b, Color.Red);
             this.chart1.Series[0].Color = Color.Green;
             this.chart1.Series[0].BorderWidth = 2;
-            if (checkBox1.Checked)
+            if (!string.IsNullOrEmpty(textBoxN.Text))
             {
-                int numSteps = int.Parse(textBoxN.Text);
-                FMethod method = new FMethod();
-                double result = method.LeftRectangle(a, b, numSteps, F);
-                decimal resultAsDecimal = Convert.ToDecimal(result);
-                text += $"Количество разбиений Методом Прямоугольника: {resultAsDecimal:F2}" + "\r\n\r\n";
-                //textBoxN.Text = $"{resultAsDecimal:F5}";
+                if (checkBox1.Checked)
+                {
+                    int numSteps = int.Parse(textBoxN.Text);
+                    FMethod method = new FMethod();
+                    double result = method.LeftRectangle(a, b, numSteps, F);
+                    decimal resultAsDecimal = Convert.ToDecimal(result);
+                    text += $"Количество разбиений Методом Прямоугольника: {resultAsDecimal:F2}" + "\r\n\r\n";
+                    //textBoxN.Text = $"{resultAsDecimal:F5}";
+                }
+                if (checkBox2.Checked)
+                {
+                    int numSteps = int.Parse(textBoxN.Text);
+                    FMethod method1 = new FMethod();
+                    double result = method1.Simpson(a, b, numSteps, F);
+                    decimal resultAsDecimal = Convert.ToDecimal(result);
+                    text += $"Количество разбиений Методом Симпсона: {resultAsDecimal:F2}" + "\r\n\r\n";
+                    // textBoxN.Text = $"{resultAsDecimal:F5}";
+                }
+                if (checkBox3.Checked)
+                {
+                    int numSteps = int.Parse(textBoxN.Text);
+                    FMethod method2 = new FMethod();
+                    double result = method2.Trapezoidal(a, b, numSteps, F);
+                    decimal resultAsDecimal = Convert.ToDecimal(result);
+                    text += $"Количество разбиений Методом Трапеции: {resultAsDecimal:F2}" + "\r\n\r\n";
+                    // textBoxN.Text = $"{resultAsDecimal:F5}";
+                }
             }
-            if (checkBox2.Checked)
+            if (!string.IsNullOrEmpty(textBoxE.Text))
             {
-                int numSteps = int.Parse(textBoxN.Text);
-                FMethod method1 = new FMethod();
-                double result = method1.Simpson(a, b, numSteps, F);
-                decimal resultAsDecimal = Convert.ToDecimal(result);
-                text += $"Количество разбиений Методом Симпсона: {resultAsDecimal:F2}" + "\r\n\r\n";
-               // textBoxN.Text = $"{resultAsDecimal:F5}";
-            }
-            if (checkBox3.Checked)
-            {
-                int numSteps = int.Parse(textBoxN.Text);
-                FMethod method2 = new FMethod();
-                double result = method2.Trapezoidal(a, b, numSteps, F);
-                decimal resultAsDecimal = Convert.ToDecimal(result);
-                text += $"Количество разбиений Методом Трапеции: {resultAsDecimal:F2}" + "\r\n\r\n";
-               // textBoxN.Text = $"{resultAsDecimal:F5}";
+                if (checkBox1.Checked)
+                {
+                    FMethod method = new FMethod();
+                    double result = method.RectangleMethod(F,a, b, Xi, out int Opt);
+                    decimal resultAsDecimal = Convert.ToDecimal(result);
+                    text += $"Количество разбиений Методом Прямоугольника: {resultAsDecimal:F2}" + "\r\n\r\n";
+                    //textBoxN.Text = $"{resultAsDecimal:F5}";
+                }
+                if (checkBox2.Checked)
+                {
+                    FMethod method1 = new FMethod();
+                    double result = method1.SimpsonMethod(F, a, b, Xi, out int Opt);
+                    decimal resultAsDecimal = Convert.ToDecimal(result);
+                    text += $"Количество разбиений Методом Симпсона: {resultAsDecimal:F2}" + "\r\n\r\n";
+                    // textBoxN.Text = $"{resultAsDecimal:F5}";
+                }
+                if (checkBox3.Checked)
+                {
+                    FMethod method2 = new FMethod();
+                    double result = method2.TrapezoidalMethod(F, a, b, Xi, out int Opt);
+                    decimal resultAsDecimal = Convert.ToDecimal(result);
+                    text += $"Количество разбиений Методом Трапеции: {resultAsDecimal:F2}" + "\r\n\r\n";
+                    // textBoxN.Text = $"{resultAsDecimal:F5}";
+                }
             }
             textBox4.Text = text;
         }

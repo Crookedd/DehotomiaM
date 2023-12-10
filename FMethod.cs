@@ -92,5 +92,88 @@ namespace DehotomiaM
 
             return h / 2d * (F(A) + F(xk)) + (h * sum);
         }
+        public double RectangleMethod(Func<double, double> func, double a, double b, double exp, out int Opt)
+        {
+            int n = 1; // Начальное количество разбиений
+            double h = (b - a) / n; // Шаг разбиения
+            double integral = 0.0;
+            double previousIntegral = double.MaxValue;
+
+            while (Math.Abs(previousIntegral - integral) > exp)
+            {
+                previousIntegral = integral;
+                integral = 0.0;
+
+                for (int i = 0; i < n; i++)
+                {
+                    double x_i = a + i * h; //double x_i = a + i * h + h / 2.0; 
+                    integral += h * func(x_i); // Площадь текущего прямоугольника
+                }
+
+                n *= 2; // Удвоение числа разбиений
+                h = (b - a) / n; // Пересчет шага
+            }
+            Opt = n / 2;
+
+            return integral;
+        }
+        public  double SimpsonMethod(Func<double, double> func, double a, double b, double exp, out int Opt)
+        {
+            int n = 1; // Начальное количество разбиений
+            double h = (b - a) / n; // Шаг разбиения
+            double integral = 0.0;
+            double previousIntegral = double.MaxValue;
+
+            while (Math.Abs(previousIntegral - integral) > exp)
+            {
+                previousIntegral = integral;
+                integral = 0.0;
+
+                for (int i = 0; i < n; i++)
+                {
+                    double x_i = a + i * h; // Левая граница текущего интервала
+                    double x_next = a + (i + 1) * h; // Правая граница текущего интервала
+                    double x_mid = (x_i + x_next) / 2.0; // Середина текущего интервала
+
+                    integral += h / 6.0 * (func(x_i) + 4 * func(x_mid) + func(x_next)); // Площадь интервала по методу Симпсона
+                }
+
+                n *= 2; // Удвоение числа разбиений
+                h = (b - a) / n; // Пересчет шага
+            }
+
+            Opt = n / 2;
+
+            return integral;
+        }
+
+
+        public double TrapezoidalMethod(Func<double, double> func, double a, double b, double exp, out int Opt)
+        {
+            int n = 1; // Начальное количество разбиений
+            double h = (b - a) / n; // Шаг разбиения
+            double integral = 0.0;
+            double previousIntegral = double.MaxValue;
+
+            while (Math.Abs(previousIntegral - integral) > exp)
+            {
+                previousIntegral = integral;
+                integral = 0.0;
+
+                for (int i = 0; i < n; i++)
+                {
+                    double x_i = a + i * h; // Левая граница текущей трапеции
+                    double x_next = a + (i + 1) * h; // Правая граница текущей трапеции
+
+                    integral += h * (func(x_i) + func(x_next)) / 2.0; // Площадь текущей трапеции
+                }
+
+                n *= 2; // Удвоение числа разбиений
+                h = (b - a) / n; // Пересчет шага
+            }
+            Opt = n / 2;
+
+            return integral;
+        }
     }
 }
