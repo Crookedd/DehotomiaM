@@ -66,8 +66,8 @@ namespace DehotomiaM
                 this.chart1.Series[0].Points.AddXY(x, y);
                 x += 0.1;
             }
-            AddVerticalLine(chart1.ChartAreas[0], a, Color.Red);
-            AddVerticalLine(chart1.ChartAreas[0], b, Color.Red);
+            AddVerticalLine(chart1.ChartAreas[0], a, Color.Green);
+            AddVerticalLine(chart1.ChartAreas[0], b, Color.Green);
             this.chart1.Series[0].Color = Color.Green;
             this.chart1.Series[0].BorderWidth = 2;
             if (!string.IsNullOrEmpty(textBoxN.Text))
