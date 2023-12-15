@@ -431,5 +431,12 @@ namespace DehotomiaM
             F3 = new Form3();
             F3.Show();
         }
+        Form4 F4;
+
+        private void сЛАУToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            F4 = new Form4();
+            F4.Show();
+        }
     }
 }
