@@ -438,5 +438,14 @@ namespace DehotomiaM
             F4 = new Form4();
             F4.Show();
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            textBox4.Clear();
+            textBox5.Clear();
+            textBox6.Clear();
+            this.chart1.Series[0].Points.Clear();
+
+        }
     }
 }

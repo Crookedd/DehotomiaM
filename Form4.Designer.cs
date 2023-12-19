@@ -33,7 +33,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
@@ -41,8 +40,8 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.dataGridViewB = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.button5 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewA)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewB)).BeginInit();
@@ -52,6 +51,7 @@
             // 
             // dataGridViewA
             // 
+            this.dataGridViewA.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.dataGridViewA.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewA.Location = new System.Drawing.Point(11, 29);
             this.dataGridViewA.Name = "dataGridViewA";
@@ -97,15 +97,6 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // menuStrip1
-            // 
-            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(724, 24);
-            this.menuStrip1.TabIndex = 8;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
@@ -148,7 +139,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(445, 27);
+            this.textBox2.Location = new System.Drawing.Point(451, 29);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(261, 285);
@@ -156,6 +147,7 @@
             // 
             // dataGridViewB
             // 
+            this.dataGridViewB.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.dataGridViewB.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewB.Location = new System.Drawing.Point(263, 29);
             this.dataGridViewB.Name = "dataGridViewB";
@@ -178,6 +170,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Добавление";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(1, 32);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(181, 16);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Введите размерность NxN";
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.button5);
@@ -191,15 +192,6 @@
             this.groupBox2.TabIndex = 16;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Основное";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 32);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(181, 16);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "Введите размерность NxN";
             // 
             // button5
             // 
@@ -215,16 +207,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.ClientSize = new System.Drawing.Size(724, 524);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dataGridViewB);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.dataGridViewA);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
+            this.ForeColor = System.Drawing.Color.MidnightBlue;
             this.Name = "Form4";
-            this.Text = "Form4";
+            this.Text = "СЛАУ";
             this.Load += new System.EventHandler(this.Form4_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewA)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewB)).EndInit();
@@ -244,7 +236,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox3;

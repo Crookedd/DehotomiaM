@@ -142,12 +142,15 @@ namespace DehotomiaM
         {
             try
             {
+
                 int n;
                 if (!int.TryParse(textBox1.Text, out n))
                 {
                     throw new ArgumentException("Некорректные значения входных данных");
                 }
-
+                dataGridViewA.ColumnCount = n;
+                dataGridViewA.RowCount = n;
+                dataGridViewB.RowCount = n;
                 if (checkBox1.Checked)
                 {
                     double[,] A = new double[n, n];
