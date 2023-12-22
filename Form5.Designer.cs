@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series13 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series14 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series15 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -148,22 +148,22 @@
             // 
             // chart1
             // 
-            chartArea4.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea4);
+            chartArea5.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea5);
             this.chart1.Location = new System.Drawing.Point(258, 3);
             this.chart1.Name = "chart1";
-            series10.ChartArea = "ChartArea1";
-            series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series10.Name = "Series1";
-            series11.ChartArea = "ChartArea1";
-            series11.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series11.Name = "Series2";
-            series12.ChartArea = "ChartArea1";
-            series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series12.Name = "Series3";
-            this.chart1.Series.Add(series10);
-            this.chart1.Series.Add(series11);
-            this.chart1.Series.Add(series12);
+            series13.ChartArea = "ChartArea1";
+            series13.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series13.Name = "Series1";
+            series14.ChartArea = "ChartArea1";
+            series14.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series14.Name = "Series2";
+            series15.ChartArea = "ChartArea1";
+            series15.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series15.Name = "Series3";
+            this.chart1.Series.Add(series13);
+            this.chart1.Series.Add(series14);
+            this.chart1.Series.Add(series15);
             this.chart1.Size = new System.Drawing.Size(599, 342);
             this.chart1.TabIndex = 3;
             this.chart1.Text = "chart1";
@@ -182,10 +182,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Century Gothic", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label1.Location = new System.Drawing.Point(6, 43);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(170, 21);
+            this.label1.Size = new System.Drawing.Size(161, 21);
             this.label1.TabIndex = 5;
             this.label1.Text = "Количество строк";
             // 
