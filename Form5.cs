@@ -182,5 +182,10 @@ namespace DehotomiaM
             dataGridView1.Rows.Clear();
             dots.Clear();
         }
+
+        private void chart1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
