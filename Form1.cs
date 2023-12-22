@@ -447,5 +447,12 @@ namespace DehotomiaM
             this.chart1.Series[0].Points.Clear();
 
         }
+        Form5 F5;
+
+        private void наименьшийToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            F5 = new Form5();
+            F5.Show();
+        }
     }
 }

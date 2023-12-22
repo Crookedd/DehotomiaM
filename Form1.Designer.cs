@@ -46,6 +46,7 @@
             this.сортировкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.интегралыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.сЛАУToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.наименьшийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button3 = new System.Windows.Forms.Button();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.textBox5 = new System.Windows.Forms.TextBox();
@@ -57,7 +58,6 @@
             this.button4 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.наименьшийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -202,6 +202,13 @@
             this.сЛАУToolStripMenuItem.Text = "СЛАУ";
             this.сЛАУToolStripMenuItem.Click += new System.EventHandler(this.сЛАУToolStripMenuItem_Click);
             // 
+            // наименьшийToolStripMenuItem
+            // 
+            this.наименьшийToolStripMenuItem.Name = "наименьшийToolStripMenuItem";
+            this.наименьшийToolStripMenuItem.Size = new System.Drawing.Size(238, 24);
+            this.наименьшийToolStripMenuItem.Text = "Метод Наименьших квадратов";
+            this.наименьшийToolStripMenuItem.Click += new System.EventHandler(this.наименьшийToolStripMenuItem_Click);
+            // 
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(28, 90);
@@ -314,12 +321,6 @@
             this.groupBox3.TabIndex = 28;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Ввод данных";
-            // 
-            // наименьшийToolStripMenuItem
-            // 
-            this.наименьшийToolStripMenuItem.Name = "наименьшийToolStripMenuItem";
-            this.наименьшийToolStripMenuItem.Size = new System.Drawing.Size(238, 24);
-            this.наименьшийToolStripMenuItem.Text = "Метод Наименьших квадратов";
             // 
             // Form1
             // 
