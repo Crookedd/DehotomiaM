@@ -53,7 +53,7 @@
             // 
             this.dataGridViewA.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.dataGridViewA.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewA.Location = new System.Drawing.Point(11, 29);
+            this.dataGridViewA.Location = new System.Drawing.Point(0, 29);
             this.dataGridViewA.Name = "dataGridViewA";
             this.dataGridViewA.RowHeadersWidth = 51;
             this.dataGridViewA.RowTemplate.Height = 24;

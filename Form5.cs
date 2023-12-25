@@ -25,8 +25,8 @@ namespace DehotomiaM
         {
             int n = ExportExcel();
             dataGridView1.Rows.Clear();
-            dataGridView1.ColumnCount = n;
-            dataGridView1.RowCount = n;
+            dataGridView1.ColumnCount = n + 1;
+            dataGridView1.RowCount = n + 1;
             for (int i = 0; i < n; i++) // по всем строкам
             {
                 for (int j = 0; j < n; j++)
@@ -123,6 +123,7 @@ namespace DehotomiaM
 
         private void button3_Click(object sender, EventArgs e)
         {
+
             for (int turn = 0; turn < dataGridView1.RowCount; ++turn)
             {
                 dots.Add(new Dots(Convert.ToDouble(dataGridView1[0, turn].Value), Convert.ToDouble(dataGridView1[1, turn].Value)));
@@ -135,8 +136,8 @@ namespace DehotomiaM
             }
             double[] X = new double[n];
             double[] Y = new double[n];
-            dataGridView1.ColumnCount = n;
-            dataGridView1.RowCount = n;
+            dataGridView1.ColumnCount = n + 1;
+            dataGridView1.RowCount = n + 1;
             for (int i = 0; i < n; i++)
             {
                 X[i] = Convert.ToInt32(dataGridView1[0, i].Value);

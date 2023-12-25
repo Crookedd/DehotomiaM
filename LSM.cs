@@ -35,6 +35,7 @@ namespace DehotomiaM
         // В качестве базисных функций используются степенные функции y = a0 * x^0 + a1 * x^1 + ... + am * x^m
         public void Polynomial(int m)
         {
+
             if (m <= 0) throw new ArgumentException("Порядок полинома должен быть больше 0");
             if (m >= X.Length) throw new ArgumentException("Порядок полинома должен быть на много меньше количества точек!");
 
